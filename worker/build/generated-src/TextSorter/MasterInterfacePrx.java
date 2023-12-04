@@ -125,43 +125,6 @@ public interface MasterInterfacePrx extends com.zeroc.Ice.ObjectPrx
         return f;
     }
 
-    default String getTask()
-    {
-        return getTask(com.zeroc.Ice.ObjectPrx.noExplicitContext);
-    }
-
-    default String getTask(java.util.Map<String, String> context)
-    {
-        return _iceI_getTaskAsync(context, true).waitForResponse();
-    }
-
-    default java.util.concurrent.CompletableFuture<java.lang.String> getTaskAsync()
-    {
-        return _iceI_getTaskAsync(com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
-    }
-
-    default java.util.concurrent.CompletableFuture<java.lang.String> getTaskAsync(java.util.Map<String, String> context)
-    {
-        return _iceI_getTaskAsync(context, false);
-    }
-
-    /**
-     * @hidden
-     * @param context -
-     * @param sync -
-     * @return -
-     **/
-    default com.zeroc.IceInternal.OutgoingAsync<java.lang.String> _iceI_getTaskAsync(java.util.Map<String, String> context, boolean sync)
-    {
-        com.zeroc.IceInternal.OutgoingAsync<java.lang.String> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "getTask", null, sync, null);
-        f.invoke(true, context, null, null, istr -> {
-                     String ret;
-                     ret = istr.readString();
-                     return ret;
-                 });
-        return f;
-    }
-
     default void sort()
     {
         sort(com.zeroc.Ice.ObjectPrx.noExplicitContext);

@@ -1,9 +1,3 @@
-sort/SortTask.java
- sort.SortTask
-TextSorter/StringSeqSeqHelper.java
- TextSorter.StringSeqSeqHelper
-element/Element.java
- element.Element
 TextSorter/MasterInterfacePrx.java
  TextSorter.MasterInterfacePrx
 TextSorter/WorkerInterface.java
@@ -16,9 +10,15 @@ TextSorter/MasterInterface.java
  TextSorter.MasterInterface$1
 TextSorter/_MasterInterfacePrxI.java
  TextSorter._MasterInterfacePrxI
-worker/Worker.java
- worker.Worker
-threadPool/ThreadPool.java
- threadPool.ThreadPool
 TextSorter/WorkerInterfacePrx.java
  TextSorter.WorkerInterfacePrx
+SortTask.java
+ SortTask
+TextSorter/StringSeqSeqHelper.java
+ TextSorter.StringSeqSeqHelper
+Element.java
+ Element
+ThreadPool.java
+ ThreadPool
+Worker.java
+ Worker

@@ -3,7 +3,6 @@ module TextSorter {
     sequence<StringSeq> StringSeqSeq;
 
     interface WorkerInterface {
-        void subscribe();
         void processTask(StringSeq lines);
     };
 
@@ -12,7 +11,6 @@ module TextSorter {
         void attachWorker(WorkerInterface* subscriber);
         void addPartialResult(StringSeq res);
         void detachWorker(WorkerInterface* subscriber);
-        string getTask();
         void sort();
     }
 }

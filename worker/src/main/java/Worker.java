@@ -7,7 +7,8 @@ import TextSorter.WorkerInterface;
 
 public class Worker implements WorkerInterface {
     private static ThreadPool threadPool;
-    private static Long startTime;
+    private static Long startConn;
+    private static Long startSort;
     private static TextSorter.MasterInterfacePrx masterInterfacePrx;
     private static WorkerInterfacePrx workerInterfacePrx;
     private static Scanner reader;
@@ -37,11 +38,8 @@ public class Worker implements WorkerInterface {
 
             globalCommunicator = communicator;
 
-            startTime = System.currentTimeMillis();
-
             // se suscribe
-            System.out.println("va a hacer attach");
-            masterInterfacePrx.attachWorker(workerInterfacePrx);
+            subscribe();
 
             // Esperar a que se cierre el servidor
             communicator.waitForShutdown();
@@ -57,11 +55,10 @@ public class Worker implements WorkerInterface {
     public static void notifyClient() {
         // Escribir el resultado ordenado en un nuevo archivo de texto
         // obtiene el array ordenado
-        long start = System.currentTimeMillis();
         String[] sortedArr = threadPool.getSorted();
-        System.out.println("Sort worker: " + (System.currentTimeMillis() - start));
 
         System.out.println("Sorted!");
+        System.out.println("Process time: " + (System.currentTimeMillis() - startSort) + "ms");
 
         masterInterfacePrx.addPartialResult(sortedArr);
         unsubscribe();
@@ -69,8 +66,8 @@ public class Worker implements WorkerInterface {
         boolean flag = true;
 
         while (flag) {
-            System.out.println("\na -> Conectarse nuevamente con Master" +
-                    "\nb -> Apagar worker");
+            System.out.println("\na -> connect again with 'Master'" +
+                    "\ne -> shut down");
             String opt = reader.nextLine();
 
             switch (opt) {
@@ -90,21 +87,18 @@ public class Worker implements WorkerInterface {
     }
 
     public static void unsubscribe() {
+        System.out.println("Detaching...");
         masterInterfacePrx.detachWorker(workerInterfacePrx);
     }
 
     public static void subscribe() {
-        masterInterfacePrx.attachWorker(workerInterfacePrx);
-    }
-
-    @Override
-    public void subscribe(Current current) {
+        System.out.println("Attaching...");
         masterInterfacePrx.attachWorker(workerInterfacePrx);
     }
 
     @Override
     public void processTask(String[] lines, Current current) {
-        System.out.println("Sorting...");
+        startSort = System.currentTimeMillis();
         Worker.threadPool = new ThreadPool(lines);
 
         try {
