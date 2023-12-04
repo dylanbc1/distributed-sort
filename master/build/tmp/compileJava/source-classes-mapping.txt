@@ -11,14 +11,14 @@ TextSorter/WorkerInterface.java
  TextSorter.WorkerInterface$1
 TextSorter/_WorkerInterfacePrxI.java
  TextSorter._WorkerInterfacePrxI
-Master.java
- Master
+TextSorter/WorkerInterfacePrx.java
+ TextSorter.WorkerInterfacePrx
 TextSorter/MasterInterface.java
  TextSorter.MasterInterface
  TextSorter.MasterInterface$1
 TextSorter/_MasterInterfacePrxI.java
  TextSorter._MasterInterfacePrxI
+Master.java
+ Master
 ThreadPool.java
  ThreadPool
-TextSorter/WorkerInterfacePrx.java
- TextSorter.WorkerInterfacePrx

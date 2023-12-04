@@ -131,6 +131,7 @@ public class Master implements MasterInterface {
                     //Medición
                     startMon = System.currentTimeMillis();
                     threadPool.execute();
+                    // System.currentInMillis - startMon (viejo)
                 } catch (InterruptedException | ExecutionException interruptedException) {
                     System.out.println(interruptedException.getMessage());
                 }
@@ -173,6 +174,7 @@ public class Master implements MasterInterface {
 
     public static void doProcess(String[] arrayToSort) {
         createTasks(arrayToSort);
+        startSort = System.currentTimeMillis(); // no tener en cuenta particion de tareas
         launchWorkers();
     }
 
@@ -251,7 +253,7 @@ public class Master implements MasterInterface {
 
         if (workers.size() == nodes) {
             System.out.println("All necessary nodes connected");
-            startSort = System.currentTimeMillis();
+            // startSort = System.currentTimeMillis(); -> tener en cuenta particion de tareas
 
             doProcess(arr);
         }
