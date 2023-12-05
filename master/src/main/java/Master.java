@@ -103,7 +103,8 @@ public class Master implements MasterInterface {
 
                 case "t":
                     flag = false;
-                    nodes = 2;
+                    String nodesS = reader.next();
+                    nodes = Integer.parseInt(nodesS);
                     break;
 
                 case "e":
@@ -228,11 +229,14 @@ public class Master implements MasterInterface {
             // añado subarrays para luego mandarselos a los workers
             subArrays.add(subArr);
         }
+
+        // elimino el grande
+        arr = null;
     }
 
     // enviamos a cada worker su respectivo subarray para que lo ordene
     public static void launchWorkers() {
-        ExecutorService executor = Executors.newFixedThreadPool(16); // 16 hilos en el pool
+        ExecutorService executor = Executors.newFixedThreadPool(nodes); // 16 hilos en el pool
 
         for (int i = 0; i < subArrays.size(); i++) {
             System.out.println("Send task to worker " + i);
@@ -243,6 +247,7 @@ public class Master implements MasterInterface {
             });
         }
 
+        subArrays = new ArrayList<>();
         executor.shutdownNow(); // No aceptará nuevas tareas
     }
 
@@ -263,7 +268,14 @@ public class Master implements MasterInterface {
     public void addPartialResult(String[] res, Current current) {
         counter++;
         System.out.println("Partial result...");
-        sorted.addAll(Arrays.asList(res));
+
+        int chunkSize = res.length / 2;
+
+        String[] chunk1 = Arrays.copyOfRange(res, 0, chunkSize);
+        sorted.addAll(Arrays.asList(chunk1));
+
+        String[] chunk2 = Arrays.copyOfRange(res, chunkSize, res.length);
+        sorted.addAll(Arrays.asList(chunk2));
 
         if (counter == nodes) {
             sort(current);
@@ -286,6 +298,7 @@ public class Master implements MasterInterface {
             while ((line = br.readLine()) != null) {
                 words.addAll(Arrays.asList(line.trim().split("\\s+")));
             }
+            br.close();
             return words.toArray(new String[0]);
         } catch (IOException e) {
             e.printStackTrace();
@@ -300,6 +313,7 @@ public class Master implements MasterInterface {
                 writer.write(element + "\n");
             }
 
+            writer.close();
             System.out.println("File wrote correctly");
         } catch (IOException e) {
             e.printStackTrace();
